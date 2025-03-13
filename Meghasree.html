@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messy Love Note</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Handlee&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Handlee', cursive;
+            background: #fefaf6;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            position: relative;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            color: #b35a37;
+            transform: rotate(3deg);
+            margin-bottom: 20px;
+        }
+
+        .message-box {
+            font-size: 1.7rem;
+            color: #6e3c3c;
+            transform: rotate(-3deg);
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .floating-message {
+            position: absolute;
+            background: rgba(255, 248, 242, 0.95);
+            padding: 10px 15px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-size: 1.3rem;
+            color: #cf1654;
+            transition: all 0.5s ease-out;
+            pointer-events: none;
+            animation: messyBounce 0.3s ease-out;
+        }
+
+        @keyframes messyBounce {
+            0% { transform: scale(0.8) rotate(5deg); opacity: 0; }
+            100% { transform: scale(1) rotate(-5deg); opacity: 1; }
+        }
+
+        .button {
+            background: #c47b5b;
+            color: white;
+            font-size: 1.3rem;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+            transform: rotate(-4deg);
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .button:hover {
+            transform: scale(1.1) rotate(3deg);
+        }
+
+        .hint {
+            color: #7a4a3a;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            transform: rotate(3deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="container" onclick="addRandomThought(event)">
+        <div class="title">Heyyyy... umm... <br> <span style="display:block; transform: rotate(-2deg);">can I tell you something?</span></div>
+        <div class="message-box">*takes deep breath* <br> You know how sometimes words just aren't enough... <br> But still... I try... because...</div>
+
+        <button class="button" onclick="event.stopPropagation(); addRandomThought(event);">
+            *pokes you* umm... click here...
+        </button>
+
+        <p class="hint">(psst... click anywhere to see what's in my heart...)</p>
+    </div>
+
+    <script>
+
+      const loveThoughts = [
+    // Original and New Messages
+    "Oii shonoooo... tumiii...",
+    "Ektu sunbe? Kichuu bolbo...",
+    "Ki je kori ami... bas tomar jonno pagol...",
+    "*blushes* umm... uff ki je bolbo...",
+    "Tomar eksho bar boli... you're my everything...",
+    "Uff... tomar hashe dekhle ami...",
+    "*hiding face* accha accha... ami quiet...",
+    "But wait... aroo kichu ache...",
+    "Tumiii janoo... my whole world is just...",
+    "*heart beating fast* umm... can I say something?",
+
+    // New Shy Confessions
+    "*playing with hair* Meghu... I wanted to say...",
+    "Tomar chokh... it makes me so nervous...",
+    "Why do you make my heart go dhum dhum... 🙈",
+    "Can't even look at you without blushing...",
+    "Ektu... just ektu... let me look at you... ✨",
+    "Your smile... it just... aami ki je bolbo... 💓",
+    "*fidgeting* You know what you do to me...?",
+    "Sometimes I just... can't find words...",
+    "Tomar shathe thakte... my heart just... uff...",
+    "Why are you so... perfectly you... 🥺",
+
+    // Sweet Romantic
+    "Tumi amar shob kichu... literally everything...",
+    "Every heartbeat whispers your name...",
+    "Ei je ami... completely yours... forever...",
+    "You're my favorite thought... always...",
+    "Tomar jonno... I could write infinite poems...",
+    "My heart... it only knows your melody...",
+    "Life before you... can't even remember...",
+    "You're my most beautiful dream come true...",
+    "Tomar bhalobasha... it's my whole world...",
+    "Forever sounds perfect... with you...",
+
+    // Possessive Dark Love
+    "You're mine... only mine... forever mine... 🖤",
+    "Don't even think about anyone else...",
+    "I get so jealous... can't help it... 🌙",
+    "Want to keep you all to myself...",
+    "24/7 just need you... want you... miss you...",
+    "Nobody else can have your smile...",
+    "Your attention... I want it all... 🖤",
+    "Can't share you... not even a little...",
+    "Mine mine mine... only mine...",
+    "Every part of you... belongs to me...",
+
+    // Playful Teasing
+    "*pokes your cheek* hehe... so cute!",
+    "Accha... one small kiss? 👉👈",
+    "*tries to act serious but giggles*",
+    "You + Me = Infinity... simple math!",
+    "Can I just... *squishes your cheeks*",
+    "*steals a quick hug* caught you!",
+    "Your smile is my favorite trouble...",
+    "*makes heart with hands* for you...",
+    "Let me just... *boops your nose*",
+    "You're my favorite kind of distraction...",
+
+    // Deep Emotional
+    "My soul just... recognizes yours...",
+    "Every dream leads to you...",
+    "You're my answered prayer...",
+    "My heart feels safest with you...",
+    "Life's perfect when you're here...",
+    "You're my favorite destiny...",
+    "Every love story leads to you...",
+    "My heart chose you... again and again...",
+    "You're my most beautiful always...",
+    "Beyond words... beyond love... just you...",
+
+    // Missing You
+    "Miss you... need you... want you...",
+    "Why is every moment without you so long...",
+    "Come back... my heart is waiting...",
+    "Distance makes me love you more...",
+    "Every second without you... torture...",
+    "My arms feel empty without you...",
+    "Come back to where you belong...",
+    "Missing your everything... constantly...",
+    "Need my dose of you... right now...",
+    "The world's grey without you...",
+
+    // Bengali Romance
+    "Tomar jonno amar pagol mon...",
+    "Bhalobasha mane tumi...",
+    "Amar shob shopno tumi...",
+    "Tomar hashi amar shob kichu...",
+    "Ektu kache esho na...",
+    "Tomar chokhe amar shopno...",
+    "Ami je ki bhabe tomay bhalobashi...",
+    "Tumi amar shob kichu... shotti...",
+    "Amar bhalobasha... shudhu tomar jonno...",
+    "Tomar shathe amar shomoy...",
+
+    // Random Sweet Nothings
+    "*just staring at you*...",
+    "Can we stay like this forever?",
+    "You make everything beautiful...",
+    "My favorite place is next to you...",
+    "Just thinking about you makes me smile...",
+    "You're my best kind of magic...",
+    "Every moment with you is precious...",
+    "You're my favorite miracle...",
+    "Life's perfect because of you...",
+    "You're my sweetest addiction...",
+
+    // Future Dreams
+    "Imagine us... forever together...",
+    "Want to grow old with you...",
+    "Our future is my favorite story...",
+    "Can't wait for our forever...",
+    "Every tomorrow is beautiful with you...",
+    "Building dreams... with you...",
+    "Our love story... just beginning...",
+    "Forever won't be enough...",
+    "Planning our endless tomorrows...",
+    "You're my best future...",
+
+    // Emotional Overflow
+    "Ki je koro tumi... my heart can't...",
+    "Just... how... why are you so perfect...",
+    "I can't even... my feelings just...",
+    "*happy tears* you're just... everything...",
+    "My heart does this thing... only for you...",
+    "Words fail... feelings overflow...",
+    "You make me feel... everything...",
+    "My heart just... uff... can't explain...",
+    "This feeling... it's just... wow...",
+    "You're my favorite kind of speechless..."
+];
+
+        function addRandomThought(event) {
+            const container = document.querySelector('.container');
+            const rect = container.getBoundingClientRect();
+
+            const newMessage = document.createElement('div');
+            newMessage.className = 'floating-message';
+            newMessage.textContent = loveThoughts[Math.floor(Math.random() * loveThoughts.length)];
+
+            // Messy placement & random rotation
+            newMessage.style.left = `${event.clientX - rect.left + (Math.random() * 40 - 20)}px`;
+            newMessage.style.top = `${event.clientY - rect.top + (Math.random() * 40 - 20)}px`;
+            newMessage.style.transform = `rotate(${Math.random() * 20 - 10}deg) scale(${0.9 + Math.random() * 0.3})`;
+
+            document.body.appendChild(newMessage);
+
+            setTimeout(() => {
+                newMessage.style.opacity = "0";
+                setTimeout(() => document.body.removeChild(newMessage), 1000);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
